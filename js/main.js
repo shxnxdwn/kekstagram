@@ -78,6 +78,6 @@ const createPhotoDescription = () => ({
   comments: Array.from({length: getRandomInteger(...COMMENTS_RANGE)}, createComment)
 });
 
-const photos = Array.from({length: 25}, createPhotoDescription);
+const photos = Array.from({length: MAX_PHOTO_COUNT}, createPhotoDescription);
 
 photos.at(0); // Чтобы избежать ошибки ESlint "неиспользуемая переменная"
