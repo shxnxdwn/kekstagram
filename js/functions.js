@@ -42,3 +42,18 @@ isValidStringLength('cat', 3);
 isPalindrome('Анна');
 isPalindromeCycle('Анна');
 parseNumbers('2023 год');
+
+
+// Задание 4. Функция для проверки, укладывается ли встреча в рабочие часы
+
+
+const isMeetingDuringWorkDay = (startWork, endWork, startMeeting, meetingDuration) => {
+  const timeToMinutes = (time) => {
+    const [ hours, minutes ] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+  };
+
+  return timeToMinutes(startMeeting) >= timeToMinutes(startWork) && timeToMinutes(startMeeting) + meetingDuration <= timeToMinutes(endWork);
+};
+
+isMeetingDuringWorkDay('08:00', '17:30', '14:00', 90);
