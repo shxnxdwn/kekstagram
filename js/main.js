@@ -1,6 +1,6 @@
 import './constants.js';
-import './functions/get-random-integer';
-import './functions/get-random-array-element';
+import './functions/get-random-integer.js/index.js';
+import './functions/get-random-array-element.js/index.js';
 import './functions/unique-number-generator.js';
 import { createPhotos } from './data.js';
 

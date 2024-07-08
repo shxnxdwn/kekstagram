@@ -1,4 +1,4 @@
-import { getRandomInteger } from './get-random-integer';
+import { getRandomInteger } from './get-random-integer.js';
 
 const createUniqueNumbersGenerator = (min, max) => {
   const generatedNumbers = new Set();
