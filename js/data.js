@@ -9,7 +9,9 @@ import {
   COMMENT_MESSAGES
 } from './constants.js';
 
-import { getRandomInteger, getRandomArrayElement, createUniqueNumbersGenerator } from './util';
+import { getRandomInteger } from './functions/get-random-integer';
+import { getRandomArrayElement } from './functions/get-random-array-element';
+import { createUniqueNumbersGenerator } from './functions/unique-number-generator.js';
 
 
 const getRandomId = createUniqueNumbersGenerator(1, MAX_PHOTO_COUNT);
