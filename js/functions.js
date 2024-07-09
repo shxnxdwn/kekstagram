@@ -48,12 +48,12 @@ parseNumbers('2023 год');
 
 
 const isMeetingDuringWorkDay = (startWork, endWork, startMeeting, meetingDuration) => {
-  const timeToMinutes = (time) => {
+  const convertTimeToMinutes = (time) => {
     const [ hours, minutes ] = time.split(':').map(Number);
     return hours * 60 + minutes;
   };
 
-  return timeToMinutes(startMeeting) >= timeToMinutes(startWork) && timeToMinutes(startMeeting) + meetingDuration <= timeToMinutes(endWork);
+  return convertTimeToMinutes(startMeeting) >= convertTimeToMinutes(startWork) && convertTimeToMinutes(startMeeting) + meetingDuration <= convertTimeToMinutes(endWork);
 };
 
 isMeetingDuringWorkDay('08:00', '17:30', '14:00', 90);
