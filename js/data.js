@@ -9,8 +9,8 @@ import {
   COMMENT_MESSAGES
 } from './constants.js';
 
-import { getRandomInteger } from './functions/get-random-integer.js/index.js';
-import { getRandomArrayElement } from './functions/get-random-array-element.js/index.js';
+import { getRandomInteger } from './functions/get-random-integer.js';
+import { getRandomArrayElement } from './functions/get-random-array-element.js';
 import { createUniqueNumbersGenerator } from './functions/unique-number-generator.js';
 
 
