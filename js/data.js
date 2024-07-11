@@ -1,18 +1,39 @@
-import {
-  MAX_AVATAR_COUNT,
-  MAX_PHOTO_COUNT,
-  MAX_COMMENT_COUNT,
-  LIKES_RANGE,
-  COMMENTS_RANGE,
-  PHOTO_DESCRIPTIONS,
-  COMMENT_NAMES,
-  COMMENT_MESSAGES
-} from './constants.js';
+const MAX_AVATAR_COUNT = 6;
+const MAX_PHOTO_COUNT = 25;
+const MAX_COMMENT_COUNT = 999;
+const LIKES_RANGE = [15, 200];
+const COMMENTS_RANGE = [0, 30];
 
-import { getRandomInteger } from './functions/get-random-integer.js/index.js';
-import { getRandomArrayElement } from './functions/get-random-array-element.js/index.js';
-import { createUniqueNumbersGenerator } from './functions/unique-number-generator.js';
+const PHOTO_DESCRIPTIONS = [
+  'Вдохновение и красота вокруг нас',
+  'Мгновение, остановленное во времени',
+  'Искусство видеть детали',
+  'Жизнь в её лучших проявлениях',
+  'Простота и гармония',
+  'Магия момента'
+];
 
+const COMMENT_NAMES = [
+  'Вайолет',
+  'Гилберт',
+  'Клаудия',
+  'Каттлея',
+  'Эрика',
+  'Айрис'
+];
+
+const COMMENT_MESSAGES = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+];
+
+import { getRandomInteger } from './functions/get-random-integer.js';
+import { getRandomArrayElement } from './functions/get-random-array-element.js';
+import { createUniqueNumbersGenerator } from './functions/create-unique-numbers-generator.js';
 
 const getRandomId = createUniqueNumbersGenerator(1, MAX_PHOTO_COUNT);
 const getRandomUrlNumber = createUniqueNumbersGenerator(1, MAX_PHOTO_COUNT);
