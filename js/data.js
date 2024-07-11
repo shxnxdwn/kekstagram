@@ -33,7 +33,7 @@ const COMMENT_MESSAGES = [
 
 import { getRandomInteger } from './functions/get-random-integer.js';
 import { getRandomArrayElement } from './functions/get-random-array-element.js';
-import { createUniqueNumbersGenerator } from './functions/unique-number-generator.js';
+import { createUniqueNumbersGenerator } from './functions/create-unique-numbers-generator.js';
 
 const getRandomId = createUniqueNumbersGenerator(1, MAX_PHOTO_COUNT);
 const getRandomUrlNumber = createUniqueNumbersGenerator(1, MAX_PHOTO_COUNT);
