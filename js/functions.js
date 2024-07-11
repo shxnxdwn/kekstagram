@@ -2,6 +2,8 @@
 
 const isValidStringLength = (string, maxLength) => string.length <= maxLength;
 
+isValidStringLength('cat', 3);
+
 // Задание 2. Функция для проверки, является ли строка палиндромом
 
 // Первый вариант
@@ -11,6 +13,8 @@ const isPalindrome = (string) => {
   const reversedString = convectedString.split('').reverse().join('');
   return reversedString === convectedString;
 };
+
+isPalindrome('Анна');
 
 // Второй вариант
 
@@ -23,6 +27,8 @@ const isPalindromeCycle = (string) => {
   }
   return true;
 };
+
+isPalindromeCycle('Анна');
 
 // Дополнительное задание
 
@@ -37,15 +43,9 @@ const parseNumbers = (data) => {
   }
 };
 
-
-isValidStringLength('cat', 3);
-isPalindrome('Анна');
-isPalindromeCycle('Анна');
 parseNumbers('2023 год');
 
-
 // Задание 4. Функция для проверки, укладывается ли встреча в рабочие часы
-
 
 const isMeetingDuringWorkDay = (startWork, endWork, startMeeting, meetingDuration) => {
   const convertTimeToMinutes = (time) => {
