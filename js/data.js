@@ -1,10 +1,10 @@
+const MAX_PICTURE_COUNT = 25;
 const MAX_AVATAR_COUNT = 6;
-const MAX_PHOTO_COUNT = 25;
 const MAX_COMMENT_COUNT = 999;
 const LIKES_RANGE = [15, 200];
 const COMMENTS_RANGE = [0, 30];
 
-const PHOTO_DESCRIPTIONS = [
+const PICTURE_DESCRIPTIONS = [
   'Вдохновение и красота вокруг нас',
   'Мгновение, остановленное во времени',
   'Искусство видеть детали',
@@ -35,8 +35,8 @@ import { getRandomInteger } from './functions/get-random-integer.js';
 import { getRandomArrayElement } from './functions/get-random-array-element.js';
 import { createUniqueNumbersGenerator } from './functions/create-unique-numbers-generator.js';
 
-const getRandomId = createUniqueNumbersGenerator(1, MAX_PHOTO_COUNT);
-const getRandomUrlNumber = createUniqueNumbersGenerator(1, MAX_PHOTO_COUNT);
+const getRandomId = createUniqueNumbersGenerator(1, MAX_PICTURE_COUNT);
+const getRandomUrlNumber = createUniqueNumbersGenerator(1, MAX_PICTURE_COUNT);
 const getRandomCommentId = createUniqueNumbersGenerator(1, MAX_COMMENT_COUNT);
 
 const createComment = () => ({
@@ -46,14 +46,14 @@ const createComment = () => ({
   name: getRandomArrayElement(COMMENT_NAMES)
 });
 
-const createPhotoDescription = () => ({
+const createPictureDescription = () => ({
   id: getRandomId(),
   url: `photos/${getRandomUrlNumber()}.jpg`,
-  description: getRandomArrayElement(PHOTO_DESCRIPTIONS),
+  description: getRandomArrayElement(PICTURE_DESCRIPTIONS),
   likes: getRandomInteger(...LIKES_RANGE),
   comments: Array.from({length: getRandomInteger(...COMMENTS_RANGE)}, createComment)
 });
 
-const createPhotos = () => Array.from({length: MAX_PHOTO_COUNT}, createPhotoDescription);
+const createPictures = () => Array.from({length: MAX_PICTURE_COUNT}, createPictureDescription);
 
-export { createPhotos };
+export { createPictures, MAX_PICTURE_COUNT };
