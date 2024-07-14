@@ -2,7 +2,7 @@ import { getRandomInteger } from './functions/get-random-integer.js';
 import { getRandomArrayElement } from './functions/get-random-array-element.js';
 import { createUniqueNumbersGenerator } from './functions/create-unique-numbers-generator.js';
 
-const DATA_OPTIONS = Object.freeze({ // В данном случае название заглавными буквами?
+const DATA_OPTIONS = Object.freeze({
   MAX_PICTURE_COUNT: 25,
   MAX_AVATAR_COUNT: 6,
   MAX_COMMENT_COUNT: 750,
@@ -58,6 +58,6 @@ const createPictureDescription = () => ({
 
 const createPictures = () => Array.from({length: DATA_OPTIONS.MAX_PICTURE_COUNT}, createPictureDescription);
 
-const CREATED_PHOTOS = createPictures(DATA_OPTIONS.MAX_PICTURE_COUNT); // Это окей, что такая константа не в начале?
+const CREATED_PHOTOS = createPictures(DATA_OPTIONS.MAX_PICTURE_COUNT);
 
-export { CREATED_PHOTOS }; // Экспортируем созданный объект в нужные модули, а не пересоздаем его в каждом из них
+export { CREATED_PHOTOS };
