@@ -1,3 +1,5 @@
+import { clearElement } from './functions/clear-element.js';
+
 const renderComment = ({ name, avatar, message }) => {
   const pictureComment = document.createElement('li');
   pictureComment.classList.add('social__comment');
@@ -35,6 +37,7 @@ const renderFullPicture = ({ url, description, likes, comments }, fullPictureCon
   pictureCommentsCount.textContent = comments.length;
 
   const pictureCommentsContainer = fullPictureContainer.querySelector('.social__comments');
+  clearElement(pictureCommentsContainer);
 
   for (let i = 0; i < comments.length; i++) {
     pictureCommentsContainer.append(renderComment(comments[i]));
