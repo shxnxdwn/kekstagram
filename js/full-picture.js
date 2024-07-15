@@ -1,4 +1,4 @@
-import { CREATED_PHOTOS } from './data.js';
+import { CREATED_PICTURES } from './data.js';
 import { renderFullPicture } from './render-full-picture.js';
 
 const picturesContainer = document.querySelector('.pictures');
@@ -48,7 +48,7 @@ picturesContainer.addEventListener('click', (evt) => {
   // switch(evt.target.tagName) { case 'A': case 'IMG': case 'P': console.log(evt.target.tagName); default: break; }
 
   if (evt.target.tagName === 'IMG') {
-    const choosenPicture = CREATED_PHOTOS.find((picture) => picture.id === Number(evt.target.dataset.id));
+    const choosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(evt.target.dataset.id));
 
     renderFullPicture(choosenPicture, fullPictureContainer);
     openFullPicture();

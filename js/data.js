@@ -68,6 +68,6 @@ const createPictureDescription = () => {
 
 const createPictures = () => Array.from({length: DATA_OPTIONS.MAX_PICTURE_COUNT}, createPictureDescription);
 
-const CREATED_PHOTOS = createPictures(DATA_OPTIONS.MAX_PICTURE_COUNT);
+const CREATED_PICTURES = createPictures(DATA_OPTIONS.MAX_PICTURE_COUNT);
 
-export { CREATED_PHOTOS };
+export { CREATED_PICTURES };
