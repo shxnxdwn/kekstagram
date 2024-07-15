@@ -4,7 +4,10 @@ import { renderFullPicture } from './render-full-picture.js';
 const picturesContainer = document.querySelector('.pictures');
 const fullPictureContainer = document.querySelector('.big-picture');
 const closeButton = fullPictureContainer.querySelector('.big-picture__cancel');
+const commentCount = fullPictureContainer.querySelector('.social__comment-count');
+const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
 
+// Function declaration так как нужен hoisting (Критерий Д5)
 
 function onDocumentKeydownEscape(evt) {
   if (evt.key === 'Escape') {
@@ -21,8 +24,8 @@ function onClickCloseButton() {
 
 
 function openFullPicture() {
-  fullPictureContainer.querySelector('.social__comment-count').classList.add('hidden');
-  fullPictureContainer.querySelector('.social__comments-loader').classList.add('hidden');
+  commentCount.classList.add('hidden');
+  commentLoader.classList.add('hidden');
 
   fullPictureContainer.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -32,8 +35,8 @@ function openFullPicture() {
 }
 
 function closeFullPicture() {
-  fullPictureContainer.querySelector('.social__comment-count').classList.remove('hidden');
-  fullPictureContainer.querySelector('.social__comments-loader').classList.remove('hidden');
+  commentCount.classList.remove('hidden');
+  commentLoader.classList.remove('hidden');
 
   document.body.classList.remove('modal-open');
   fullPictureContainer.classList.add('hidden');
