@@ -1,8 +1,14 @@
-const MAX_PICTURE_COUNT = 25;
-const MAX_AVATAR_COUNT = 6;
-const MAX_COMMENT_COUNT = 999;
-const LIKES_RANGE = [15, 200];
-const COMMENTS_RANGE = [0, 30];
+import { getRandomInteger } from './functions/get-random-integer.js';
+import { getRandomArrayElement } from './functions/get-random-array-element.js';
+import { createUniqueNumbersGenerator } from './functions/create-unique-numbers-generator.js';
+
+const DATA_OPTIONS = Object.freeze({
+  MAX_PICTURE_COUNT: 25,
+  MAX_AVATAR_COUNT: 6,
+  MAX_COMMENT_COUNT: 750,
+  LIKES_RANGE: [15, 200],
+  COMMENTS_RANGE: [0, 30]
+});
 
 const PICTURE_DESCRIPTIONS = [
   'Вдохновение и красота вокруг нас',
@@ -31,29 +37,37 @@ const COMMENT_MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-import { getRandomInteger } from './functions/get-random-integer.js';
-import { getRandomArrayElement } from './functions/get-random-array-element.js';
-import { createUniqueNumbersGenerator } from './functions/create-unique-numbers-generator.js';
 
-const getRandomId = createUniqueNumbersGenerator(1, MAX_PICTURE_COUNT);
-const getRandomUrlNumber = createUniqueNumbersGenerator(1, MAX_PICTURE_COUNT);
-const getRandomCommentId = createUniqueNumbersGenerator(1, MAX_COMMENT_COUNT);
+const getRandomId = createUniqueNumbersGenerator(1, DATA_OPTIONS.MAX_PICTURE_COUNT);
+const getRandomCommentId = createUniqueNumbersGenerator(1, DATA_OPTIONS.MAX_COMMENT_COUNT);
+
 
 const createComment = () => ({
   id: getRandomCommentId(),
-  avatar: `img/avatar-${getRandomInteger(1, MAX_AVATAR_COUNT)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, DATA_OPTIONS.MAX_AVATAR_COUNT)}.svg`,
   message: getRandomArrayElement(COMMENT_MESSAGES),
   name: getRandomArrayElement(COMMENT_NAMES)
 });
 
-const createPictureDescription = () => ({
-  id: getRandomId(),
-  url: `photos/${getRandomUrlNumber()}.jpg`,
-  description: getRandomArrayElement(PICTURE_DESCRIPTIONS),
-  likes: getRandomInteger(...LIKES_RANGE),
-  comments: Array.from({length: getRandomInteger(...COMMENTS_RANGE)}, createComment)
-});
+const createPictureDescription = () => {
+  // Костыль, так как с сервера приходят данные по принципу { id: 0; url: id + 1 },
+  // а здесь id и url никак не связаны были (изначально в задании 2 рандомных числа), поэтому пришлось сделать так
 
-const createPictures = () => Array.from({length: MAX_PICTURE_COUNT}, createPictureDescription);
+  const result = {
+    description: getRandomArrayElement(PICTURE_DESCRIPTIONS),
+    likes: getRandomInteger(...DATA_OPTIONS.LIKES_RANGE),
+    comments: Array.from({length: getRandomInteger(...DATA_OPTIONS.COMMENTS_RANGE)}, createComment)
+  };
 
-export { createPictures, MAX_PICTURE_COUNT };
+  result.id = getRandomId();
+  result.url = `photos/${result.id}.jpg`;
+
+  return result;
+};
+
+
+const createPictures = () => Array.from({length: DATA_OPTIONS.MAX_PICTURE_COUNT}, createPictureDescription);
+
+const CREATED_PICTURES = createPictures(DATA_OPTIONS.MAX_PICTURE_COUNT);
+
+export { CREATED_PICTURES };

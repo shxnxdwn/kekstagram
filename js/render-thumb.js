@@ -1,26 +1,29 @@
-import { createPictures, MAX_PICTURE_COUNT } from './data.js';
+import { CREATED_PICTURES } from './data.js';
 
-const CREATED_PHOTOS = createPictures(MAX_PICTURE_COUNT);
+const renderThumb = (pictures) => {
+  const picturesContainer = document.querySelector('.pictures');
+  const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const picturesContainer = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+  const pictureFragment = new DocumentFragment();
 
-const pictureFragment = new DocumentFragment();
+  pictures.forEach(({ id, url, description, likes, comments }) => {
+    const pictureElement = pictureTemplate.cloneNode(true);
 
-CREATED_PHOTOS.forEach(({ url, description, likes, comments }) => {
-  const pictureElement = pictureTemplate.cloneNode(true);
+    const pictureImg = pictureElement.querySelector('.picture__img');
+    pictureImg.setAttribute('data-id', id);
+    pictureImg.src = url;
+    pictureImg.alt = description;
 
-  const pictureImg = pictureElement.querySelector('.picture__img');
-  pictureImg.src = url;
-  pictureImg.alt = description;
+    const pictureLikes = pictureElement.querySelector('.picture__likes');
+    pictureLikes.textContent = likes;
 
-  const pictureLikes = pictureElement.querySelector('.picture__likes');
-  pictureLikes.textContent = likes;
+    const pictureComments = pictureElement.querySelector('.picture__comments');
+    pictureComments.textContent = comments.length;
 
-  const pictureComments = pictureElement.querySelector('.picture__comments');
-  pictureComments.textContent = comments.length;
+    pictureFragment.append(pictureElement);
+  });
 
-  pictureFragment.append(pictureElement);
-});
+  picturesContainer.append(pictureFragment);
+};
 
-picturesContainer.append(pictureFragment);
+renderThumb(CREATED_PICTURES);
