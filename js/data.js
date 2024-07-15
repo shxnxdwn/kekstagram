@@ -37,9 +37,10 @@ const COMMENT_MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+
 const getRandomId = createUniqueNumbersGenerator(1, DATA_OPTIONS.MAX_PICTURE_COUNT);
-const getRandomUrlNumber = createUniqueNumbersGenerator(1, DATA_OPTIONS.MAX_PICTURE_COUNT);
 const getRandomCommentId = createUniqueNumbersGenerator(1, DATA_OPTIONS.MAX_COMMENT_COUNT);
+
 
 const createComment = () => ({
   id: getRandomCommentId(),
@@ -48,13 +49,22 @@ const createComment = () => ({
   name: getRandomArrayElement(COMMENT_NAMES)
 });
 
-const createPictureDescription = () => ({
-  id: getRandomId(),
-  url: `photos/${getRandomUrlNumber()}.jpg`,
-  description: getRandomArrayElement(PICTURE_DESCRIPTIONS),
-  likes: getRandomInteger(...DATA_OPTIONS.LIKES_RANGE),
-  comments: Array.from({length: getRandomInteger(...DATA_OPTIONS.COMMENTS_RANGE)}, createComment)
-});
+const createPictureDescription = () => {
+  // Костыль, так как с сервера приходят данные по принципу { id: 0; url: id + 1 },
+  // а здесь id и url никак не связаны были (изначально в задании 2 рандомных числа), поэтому пришлось сделать так
+
+  const result = {
+    description: getRandomArrayElement(PICTURE_DESCRIPTIONS),
+    likes: getRandomInteger(...DATA_OPTIONS.LIKES_RANGE),
+    comments: Array.from({length: getRandomInteger(...DATA_OPTIONS.COMMENTS_RANGE)}, createComment)
+  };
+
+  result.id = getRandomId();
+  result.url = `photos/${result.id}.jpg`;
+
+  return result;
+};
+
 
 const createPictures = () => Array.from({length: DATA_OPTIONS.MAX_PICTURE_COUNT}, createPictureDescription);
 

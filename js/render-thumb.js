@@ -6,10 +6,11 @@ const renderThumb = (pictures) => {
 
   const pictureFragment = new DocumentFragment();
 
-  pictures.forEach(({ url, description, likes, comments }) => {
+  pictures.forEach(({ id, url, description, likes, comments }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
 
     const pictureImg = pictureElement.querySelector('.picture__img');
+    pictureImg.setAttribute('data-id', id);
     pictureImg.src = url;
     pictureImg.alt = description;
 
