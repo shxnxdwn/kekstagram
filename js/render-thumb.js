@@ -1,4 +1,4 @@
-import { CREATED_PHOTOS } from './data.js';
+import { CREATED_PICTURES } from './data.js';
 
 const renderThumb = (pictures) => {
   const picturesContainer = document.querySelector('.pictures');
@@ -26,4 +26,4 @@ const renderThumb = (pictures) => {
   picturesContainer.append(pictureFragment);
 };
 
-renderThumb(CREATED_PHOTOS);
+renderThumb(CREATED_PICTURES);
