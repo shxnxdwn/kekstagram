@@ -24,7 +24,6 @@ const renderComment = ({ name, avatar, message }) => {
   return pictureComment;
 };
 
-
 const renderFullPicture = ({ url, description, likes, comments }, fullPictureContainer) => {
   const pictureImg = fullPictureContainer.querySelector('.big-picture__img > img');
   pictureImg.src = url;
@@ -63,7 +62,6 @@ const renderFullPicture = ({ url, description, likes, comments }, fullPictureCon
     commentLoader.classList.add('hidden');
   } else {
     commentLoader.classList.remove('hidden');
-    commentLoader.addEventListener('click', () => {});
   }
 };
 
@@ -75,6 +73,4 @@ export { renderComment, renderFullPicture };
 3) Если отобразить все можно, то отобразить все комментарии и скрыть кнопку загрузки.
 4) Если отобразить все нельзя, отобразить те, котоыре можно. Отобразить кнопку загрузки. Повесить на кнопку загрузки обработчик.
 4.1) Он должен проверять, возможно ли загрузить еще 5 комментариев. Если да, то загрузить еще 5. Если нет, то загрузить все и скрыть кнопку загрузки.
-
-
 */

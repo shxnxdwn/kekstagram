@@ -34,8 +34,8 @@ function closeFullPicture() {
   fullPictureContainer.classList.add('hidden');
 }
 
-
 picturesContainer.addEventListener('click', (evt) => {
+
   // Если нужно открытие окна при клике не только по картинке, но и по количеству likes/comments
   // switch(evt.target.tagName) { case 'A': case 'IMG': case 'P': console.log(evt.target.tagName); default: break; }
 
