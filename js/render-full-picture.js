@@ -35,17 +35,14 @@ const renderFullPicture = ({ url, description, likes, comments }, fullPictureCon
   const pictureLikesCount = fullPictureContainer.querySelector('.likes-count');
   pictureLikesCount.textContent = likes;
 
+
+  const pictureCommentsContainer = fullPictureContainer.querySelector('.social__comments');
+
   const pictureCommentsFrom = fullPictureContainer.querySelector('.social__comment-shown-count');
   pictureCommentsFrom.textContent = COMMENTS_VISIBLE_STEP <= comments.length ? COMMENTS_VISIBLE_STEP : comments.length;
 
   const pictureCommentsTotal = fullPictureContainer.querySelector('.social__comment-total-count');
   pictureCommentsTotal.textContent = comments.length;
-
-
-  const pictureCommentsContainer = fullPictureContainer.querySelector('.social__comments');
-  const currentCommentCount = pictureCommentsFrom.textContent;
-  const totalCommentCount = comments.length;
-  const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
 
   clearElement(pictureCommentsContainer);
 
@@ -57,12 +54,27 @@ const renderFullPicture = ({ url, description, likes, comments }, fullPictureCon
     }
   }
 
+
+  const currentCommentCount = Number(fullPictureContainer.querySelector('.social__comment-shown-count').textContent);
+  const totalCommentCount = Number(fullPictureContainer.querySelector('.social__comment-total-count').textContent);
+  const commentLoader = document.querySelector('.social__comments-loader');
+
   if (currentCommentCount >= totalCommentCount) {
     commentLoader.classList.add('hidden');
   } else {
     commentLoader.classList.remove('hidden');
+    commentLoader.addEventListener('click', () => {});
   }
 };
 
-
 export { renderComment, renderFullPicture };
+
+/*
+1) Создать полный лист комментариев
+2) Проверить, все ли комментарии получится отобразить сразу (comments <= 5).
+3) Если отобразить все можно, то отобразить все комментарии и скрыть кнопку загрузки.
+4) Если отобразить все нельзя, отобразить те, котоыре можно. Отобразить кнопку загрузки. Повесить на кнопку загрузки обработчик.
+4.1) Он должен проверять, возможно ли загрузить еще 5 комментариев. Если да, то загрузить еще 5. Если нет, то загрузить все и скрыть кнопку загрузки.
+
+
+*/
