@@ -2,6 +2,7 @@ import { clearElement } from './functions/clear-element.js';
 import { CREATED_PICTURES } from './data.js';
 
 const COMMENTS_VISIBLE_STEP = 5;
+let loadMoreHandler;
 
 const picturesContainer = document.querySelector('.pictures');
 const fullPictureContainer = document.querySelector('.big-picture');
@@ -29,19 +30,38 @@ const renderComment = ({ name, avatar, message }) => {
   return pictureComment;
 };
 
-const showNextComments = (comments, container, currentCount) => {
-  let counter = 0;
+const renderCommentList = (comments, container, commentAmount, pictureCommentsFrom) => {
+  clearElement(container);
 
-  for (let i = currentCount; i < currentCount + COMMENTS_VISIBLE_STEP; i++) {
-    if (comments[i]) {
-      container.append(renderComment(comments[i]));
-      counter++;
-    } else {
-      break;
-    }
+  for (let i = 0; i < Math.min(comments.length, commentAmount); i++) {
+    container.append(renderComment(comments[i]));
   }
-  return counter;
+  pictureCommentsFrom.textContent = commentAmount;
 };
+
+// const showNextComments = (comments, container, currentCount) => {
+//   let counter = 0;
+
+//   for (let i = currentCount; i < currentCount + COMMENTS_VISIBLE_STEP; i++) {
+//     if (comments[i]) {
+//       container.append(renderComment(comments[i]));
+//       counter++;
+//     } else {
+//       break;
+//     }
+//   }
+//   return counter;
+// };
+
+// const onClickLoadMore = (evt, ) => {
+//   currentCommentCount += showNextComments(comments, pictureCommentsContainer, currentCommentCount);
+//   pictureCommentsFrom.textContent = currentCommentCount;
+
+//   if (currentCommentCount === totalCommentCount) {
+//     commentLoader.classList.add('hidden');
+//     commentLoader.removeEventListener('click', onClickLoadMore);
+//   }
+// };
 
 const renderFullPicture = ({ url, description, likes, comments }) => {
   const pictureImg = fullPictureContainer.querySelector('.big-picture__img > img');
@@ -59,39 +79,50 @@ const renderFullPicture = ({ url, description, likes, comments }) => {
 
   clearElement(pictureCommentsContainer);
 
-  let currentCommentCount = 0;
   const totalCommentCount = comments.length;
 
-  currentCommentCount += showNextComments(comments, pictureCommentsContainer, currentCommentCount);
+  const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
+  // currentCommentCount += showNextComments(comments, pictureCommentsContainer, currentCommentCount);
 
-  pictureCommentsFrom.textContent = currentCommentCount;
+  loadMoreHandler = onClickLoadMore(pictureCommentsContainer, pictureCommentsFrom, comments, commentLoader);
+  loadMoreHandler();
+
   pictureCommentsTotal.textContent = totalCommentCount;
 
-  const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
 
-  const onClickLoadMore = () => {
-    currentCommentCount += showNextComments(comments, pictureCommentsContainer, currentCommentCount);
-    pictureCommentsFrom.textContent = currentCommentCount;
 
-    if (currentCommentCount === totalCommentCount) {
+  // const onClickLoadMore = () => {
+  //   currentCommentCount += showNextComments(comments, pictureCommentsContainer, currentCommentCount);
+  //   pictureCommentsFrom.textContent = currentCommentCount;
+
+  //   if (currentCommentCount === totalCommentCount) {
+  //     commentLoader.classList.add('hidden');
+  //     commentLoader.removeEventListener('click', onClickLoadMore);
+  //   }
+  // };
+
+
+  // const removeCommentLoaderEvent = () => {
+  //   commentLoader.removeEventListener('click', onClickLoadMore);
+  // };
+
+  // commentLoader._removeEvent = removeCommentLoaderEvent;
+  commentLoader.addEventListener('click', loadMoreHandler);
+};
+
+function onClickLoadMore(pictureCommentsContainer, pictureCommentsFrom, comments, commentLoader) {
+  let currentCount = 0;
+  return function() {
+    currentCount = Math.min(comments.length, currentCount + COMMENTS_VISIBLE_STEP);
+    renderCommentList(comments, pictureCommentsContainer, currentCount, pictureCommentsFrom);
+    if (currentCount === comments.length) {
       commentLoader.classList.add('hidden');
-      commentLoader.removeEventListener('click', onClickLoadMore);
+    } else {
+      commentLoader.classList.remove('hidden');
+      commentLoader.addEventListener('click', onClickLoadMore);
     }
   };
-
-  if (currentCommentCount === totalCommentCount) {
-    commentLoader.classList.add('hidden');
-  } else {
-    commentLoader.classList.remove('hidden');
-    commentLoader.addEventListener('click', onClickLoadMore);
-  }
-
-  const removeCommentLoaderEvent = () => {
-    commentLoader.removeEventListener('click', onClickLoadMore);
-  };
-
-  commentLoader._removeEvent = removeCommentLoaderEvent;
-};
+}
 
 function onDocumentKeydownEscape(evt) {
   if (evt.key === 'Escape') {
@@ -117,17 +148,20 @@ function closeFullPicture() {
   fullPictureContainer.classList.add('hidden');
 
   const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
-  if (commentLoader._removeEvent) {
-    commentLoader._removeEvent();
-  }
+  commentLoader.removeEventListener('click', loadMoreHandler);
+  // if (commentLoader._removeEvent) {
+  //   commentLoader._removeEvent();
+  // }
 
   closeButton.removeEventListener('click', onClickCloseButton);
   document.removeEventListener('keydown', onDocumentKeydownEscape);
 }
 
 picturesContainer.addEventListener('click', (evt) => {
-  if (evt.target.tagName === 'IMG') {
-    const choosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(evt.target.dataset.id));
+  const clickedPost = evt.target.closest('.picture');
+  if (clickedPost) {
+    const clickedImage = clickedPost.querySelector('img');
+    const choosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(clickedImage.dataset.id));
     renderFullPicture(choosenPicture);
     openFullPicture();
   }
