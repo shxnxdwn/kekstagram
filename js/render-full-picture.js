@@ -1,6 +1,11 @@
 import { clearElement } from './functions/clear-element.js';
+import { CREATED_PICTURES } from './data.js';
 
 const COMMENTS_VISIBLE_STEP = 5;
+
+const picturesContainer = document.querySelector('.pictures');
+const fullPictureContainer = document.querySelector('.big-picture');
+const closeButton = fullPictureContainer.querySelector('.big-picture__cancel');
 
 const renderComment = ({ name, avatar, message }) => {
   const pictureComment = document.createElement('li');
@@ -24,7 +29,21 @@ const renderComment = ({ name, avatar, message }) => {
   return pictureComment;
 };
 
-const renderFullPicture = ({ url, description, likes, comments }, fullPictureContainer) => {
+const showNextComments = (comments, container, currentCount) => {
+  let counter = 0;
+
+  for (let i = currentCount; i < currentCount + COMMENTS_VISIBLE_STEP; i++) {
+    if (comments[i]) {
+      container.append(renderComment(comments[i]));
+      counter++;
+    } else {
+      break;
+    }
+  }
+  return counter;
+};
+
+const renderFullPicture = ({ url, description, likes, comments }) => {
   const pictureImg = fullPictureContainer.querySelector('.big-picture__img > img');
   pictureImg.src = url;
 
@@ -34,43 +53,82 @@ const renderFullPicture = ({ url, description, likes, comments }, fullPictureCon
   const pictureLikesCount = fullPictureContainer.querySelector('.likes-count');
   pictureLikesCount.textContent = likes;
 
-
   const pictureCommentsContainer = fullPictureContainer.querySelector('.social__comments');
-
   const pictureCommentsFrom = fullPictureContainer.querySelector('.social__comment-shown-count');
-  pictureCommentsFrom.textContent = COMMENTS_VISIBLE_STEP <= comments.length ? COMMENTS_VISIBLE_STEP : comments.length;
-
   const pictureCommentsTotal = fullPictureContainer.querySelector('.social__comment-total-count');
-  pictureCommentsTotal.textContent = comments.length;
 
   clearElement(pictureCommentsContainer);
 
-  for (let i = 0; i < COMMENTS_VISIBLE_STEP; i++) {
-    if (comments[i]) {
-      pictureCommentsContainer.append(renderComment(comments[i]));
-    } else {
-      break;
+  let currentCommentCount = 0;
+  const totalCommentCount = comments.length;
+
+  currentCommentCount += showNextComments(comments, pictureCommentsContainer, currentCommentCount);
+
+  pictureCommentsFrom.textContent = currentCommentCount;
+  pictureCommentsTotal.textContent = totalCommentCount;
+
+  const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
+
+  const onClickLoadMore = () => {
+    currentCommentCount += showNextComments(comments, pictureCommentsContainer, currentCommentCount);
+    pictureCommentsFrom.textContent = currentCommentCount;
+
+    if (currentCommentCount === totalCommentCount) {
+      commentLoader.classList.add('hidden');
+      commentLoader.removeEventListener('click', onClickLoadMore);
     }
-  }
+  };
 
-
-  const currentCommentCount = Number(fullPictureContainer.querySelector('.social__comment-shown-count').textContent);
-  const totalCommentCount = Number(fullPictureContainer.querySelector('.social__comment-total-count').textContent);
-  const commentLoader = document.querySelector('.social__comments-loader');
-
-  if (currentCommentCount >= totalCommentCount) {
+  if (currentCommentCount === totalCommentCount) {
     commentLoader.classList.add('hidden');
   } else {
     commentLoader.classList.remove('hidden');
+    commentLoader.addEventListener('click', onClickLoadMore);
   }
+
+  const removeCommentLoaderEvent = () => {
+    commentLoader.removeEventListener('click', onClickLoadMore);
+  };
+
+  commentLoader._removeEvent = removeCommentLoaderEvent;
 };
 
-export { renderComment, renderFullPicture };
+function onDocumentKeydownEscape(evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeFullPicture();
+  }
+}
 
-/*
-1) Создать полный лист комментариев
-2) Проверить, все ли комментарии получится отобразить сразу (comments <= 5).
-3) Если отобразить все можно, то отобразить все комментарии и скрыть кнопку загрузки.
-4) Если отобразить все нельзя, отобразить те, котоыре можно. Отобразить кнопку загрузки. Повесить на кнопку загрузки обработчик.
-4.1) Он должен проверять, возможно ли загрузить еще 5 комментариев. Если да, то загрузить еще 5. Если нет, то загрузить все и скрыть кнопку загрузки.
-*/
+function onClickCloseButton() {
+  closeFullPicture();
+}
+
+function openFullPicture() {
+  fullPictureContainer.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+
+  closeButton.addEventListener('click', onClickCloseButton);
+  document.addEventListener('keydown', onDocumentKeydownEscape);
+}
+
+function closeFullPicture() {
+  document.body.classList.remove('modal-open');
+  fullPictureContainer.classList.add('hidden');
+
+  const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
+  if (commentLoader._removeEvent) {
+    commentLoader._removeEvent();
+  }
+
+  closeButton.removeEventListener('click', onClickCloseButton);
+  document.removeEventListener('keydown', onDocumentKeydownEscape);
+}
+
+picturesContainer.addEventListener('click', (evt) => {
+  if (evt.target.tagName === 'IMG') {
+    const choosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(evt.target.dataset.id));
+    renderFullPicture(choosenPicture);
+    openFullPicture();
+  }
+});
