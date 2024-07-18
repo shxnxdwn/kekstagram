@@ -1,5 +1,5 @@
-import { clearElement } from './functions/clear-element.js';
-import { CREATED_PICTURES } from './data.js';
+import {clearElement} from './functions/clear-element.js';
+import {CREATED_PICTURES} from './data.js';
 
 const COMMENTS_VISIBLE_STEP = 5;
 let onClickLoadMore;
@@ -55,8 +55,7 @@ const renderFullPicture = ({ url, description, likes, comments }) => {
   const pictureCommentsTotal = fullPictureContainer.querySelector('.social__comment-total-count');
   const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
 
-  const totalCommentCount = comments.length;
-  pictureCommentsTotal.textContent = totalCommentCount;
+  pictureCommentsTotal.textContent = comments.length;
 
   clearElement(pictureCommentsContainer);
 
@@ -116,9 +115,9 @@ picturesContainer.addEventListener('click', (evt) => {
   const isClickOnPicture = evt.target.closest('.picture');
 
   if (isClickOnPicture) {
-    const choosenImgElement = isClickOnPicture.querySelector('img');
-    const choosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(choosenImgElement.dataset.id));
-    renderFullPicture(choosenPicture);
+    const chosenImgElement = isClickOnPicture.querySelector('img');
+    const chosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(chosenImgElement.dataset.id));
+    renderFullPicture(chosenPicture);
     openFullPicture();
   }
 });
