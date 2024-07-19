@@ -42,7 +42,7 @@ pictureUploadInput.addEventListener('change', openPictureUploadOverlay);
 // Стоит ли вынести их в отдельный модуль? Или просто экспортировать из full-picture.js?
 
 function onClickCloseButton() {
-  openPictureUploadOverlay();
+  closePictureUploadOverlay();
 }
 
 function onDocumentKeydownEscape(evt) {
