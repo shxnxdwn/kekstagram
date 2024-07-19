@@ -6,11 +6,9 @@ const pictureUploadOverlay = pictureUploadForm.querySelector('.img-upload__overl
 const picturePreview = pictureUploadOverlay.querySelector('.img-upload__preview > img');
 const picturePreviewCloseButton = pictureUploadOverlay.querySelector('.img-upload__cancel');
 
+const picturePreviewText = pictureUploadOverlay.querySelector('.img-upload__text');
 const hashtagInput = pictureUploadOverlay.querySelector('.text__hashtags');
 const commentInput = pictureUploadOverlay.querySelector('.text__description');
-
-/* eslint-disable-next-line */
-let pristine;
 
 
 const openPictureUploadOverlay = (event) => {
@@ -35,7 +33,22 @@ const openPictureUploadOverlay = (event) => {
     hashtagInput.addEventListener('keydown', onInputKeydownEscape);
     commentInput.addEventListener('keydown', onInputKeydownEscape);
 
-    pristine = setupValidation(pictureUploadForm, hashtagInput, commentInput);
+    setupValidation(pictureUploadForm, hashtagInput, commentInput);
+  }
+};
+
+
+const clearForm = () => {
+  picturePreview.src = '';
+  hashtagInput.value = '';
+  commentInput.value = '';
+
+  const errors = picturePreviewText.querySelectorAll('.img-upload__field-wrapper--error');
+
+  if (errors.length > 0) {
+    for (const error of errors) {
+      error.remove();
+    }
   }
 };
 
@@ -43,9 +56,8 @@ const openPictureUploadOverlay = (event) => {
 const closePictureUploadOverlay = () => {
   document.body.classList.remove('modal-open');
   pictureUploadOverlay.classList.add('hidden');
-  picturePreview.src = '';
-  hashtagInput.value = '';
-  commentInput.value = '';
+
+  clearForm();
 
   picturePreviewCloseButton.removeEventListener('click', onClickCloseButton);
   document.removeEventListener('keydown', onDocumentKeydownEscape);

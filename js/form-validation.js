@@ -65,8 +65,6 @@ const setupValidation = (form, hashtagInput, commentInput) => {
     }
 
   });
-
-  return pristine;
 };
 
 export { setupValidation };
