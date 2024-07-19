@@ -9,6 +9,7 @@ const picturePreviewCloseButton = pictureUploadOverlay.querySelector('.img-uploa
 const hashtagInput = pictureUploadOverlay.querySelector('.text__hashtags');
 const commentInput = pictureUploadOverlay.querySelector('.text__description');
 
+/* eslint-disable-next-line */
 let pristine;
 
 
@@ -43,6 +44,8 @@ const closePictureUploadOverlay = () => {
   document.body.classList.remove('modal-open');
   pictureUploadOverlay.classList.add('hidden');
   picturePreview.src = '';
+  hashtagInput.value = '';
+  commentInput.value = '';
 
   picturePreviewCloseButton.removeEventListener('click', onClickCloseButton);
   document.removeEventListener('keydown', onDocumentKeydownEscape);
