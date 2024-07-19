@@ -31,6 +31,7 @@ const renderComment = ({ name, avatar, message }) => {
   return pictureComment;
 };
 
+
 const renderCommentList = (comments, container, commentsFrom, commentAmount) => {
   clearElement(container);
 
@@ -39,6 +40,7 @@ const renderCommentList = (comments, container, commentsFrom, commentAmount) => 
   }
   commentsFrom.textContent = commentAmount;
 };
+
 
 const renderFullPicture = ({ url, description, likes, comments }) => {
   const pictureImg = fullPictureContainer.querySelector('.big-picture__img > img');
@@ -64,6 +66,7 @@ const renderFullPicture = ({ url, description, likes, comments }) => {
   commentLoader.addEventListener('click', onClickLoadMore);
 };
 
+
 function onClickLoadMoreClosure(comments, container, commentsFrom, commentLoader) {
   let currentCount = 0;
 
@@ -81,6 +84,7 @@ function onClickLoadMoreClosure(comments, container, commentsFrom, commentLoader
   };
 }
 
+
 function onDocumentKeydownEscape(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
@@ -91,6 +95,7 @@ function onDocumentKeydownEscape(evt) {
 function onClickCloseButton() {
   closeFullPicture();
 }
+
 
 function openFullPicture() {
   fullPictureContainer.classList.remove('hidden');
