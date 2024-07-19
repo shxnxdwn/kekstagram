@@ -48,3 +48,86 @@ function onDocumentKeydownEscape(evt) {
 
 
 pictureUploadInput.addEventListener('change', openPictureUploadOverlay);
+
+
+// Validation ==========================================================================================================
+
+// Стоит ли создать для валидации отдельный модуль?
+
+const HASHTAG_ERRORS = {
+  INVALID: 'Введён невалидный хэштег',
+  MAX_COUNT: 'Превышено количество хэштегов',
+  REPEAT: 'Хэштеги повторяются'
+};
+
+const COMMENT_ERRORS = {
+  MAX_LENGTH: 'Длина комментария больше 140 символов'
+};
+
+const hashtagInput = pictureUploadOverlay.querySelector('.text__hashtags');
+const commentInput = pictureUploadOverlay.querySelector('.text__description');
+
+const pristine = new Pristine(pictureUploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error',
+});
+
+
+// Мы не можем завести константу MAX_COMMENT_LENGTH = 140 и передать в эту функцию вторым аргументом
+const isValidCommentMaxLength = (value) => value.length <= 140;
+
+
+const isValidHashtag = (value) => {
+  if (!value) {
+    return true;
+  }
+  const hashtags = value.trim().split(/\s+/);
+  const hashtagValidationRegexp = /^#[a-zа-яё0-9]{1,19}$/i;
+
+  for (const hashtag of hashtags) {
+    if (!hashtagValidationRegexp.test(hashtag)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+
+const isValidHashtagMaxCount = (value) => value.trim().split(/\s+/).length <= 5;
+
+
+const isHashtagsRepeat = (value) => {
+  const hashtags = value.trim().toLowerCase().split(/\s+/);
+  const uniqueHashtags = new Set(hashtags);
+
+  return uniqueHashtags.size === hashtags.length;
+};
+
+
+pristine.addValidator(commentInput, isValidCommentMaxLength, COMMENT_ERRORS.MAX_LENGTH);
+pristine.addValidator(hashtagInput, isValidHashtag, HASHTAG_ERRORS.INVALID);
+pristine.addValidator(hashtagInput, isValidHashtagMaxCount, HASHTAG_ERRORS.MAX_COUNT);
+pristine.addValidator(hashtagInput, isHashtagsRepeat, HASHTAG_ERRORS.REPEAT);
+
+
+pictureUploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  if (pristine.validate()) {
+    console.log('Форма отправлена');
+  }
+});
+
+hashtagInput.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    evt.stopPropagation();
+  }
+});
+
+commentInput.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    evt.stopPropagation();
+  }
+});
