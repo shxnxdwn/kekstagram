@@ -35,12 +35,6 @@ const closePictureUploadOverlay = () => {
 };
 
 
-pictureUploadInput.addEventListener('change', openPictureUploadOverlay);
-
-
-// onClickCloseButton и onDocumentKeydownEscape повторяются здесь как в модуле full-picture.js.
-// Стоит ли вынести их в отдельный модуль? Или просто экспортировать из full-picture.js?
-
 function onClickCloseButton() {
   closePictureUploadOverlay();
 }
@@ -51,3 +45,6 @@ function onDocumentKeydownEscape(evt) {
     closePictureUploadOverlay();
   }
 }
+
+
+pictureUploadInput.addEventListener('change', openPictureUploadOverlay);
