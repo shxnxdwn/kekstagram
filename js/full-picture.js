@@ -1,5 +1,5 @@
-import {clearElement} from './functions/clear-element.js';
-import {CREATED_PICTURES} from './data.js';
+import { clearElement } from './functions/clear-element.js';
+import { CREATED_PICTURES } from './data.js';
 
 const COMMENTS_VISIBLE_STEP = 5;
 let onClickLoadMore;
