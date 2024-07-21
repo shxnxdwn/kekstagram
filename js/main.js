@@ -1,2 +1,3 @@
-import './render-thumb.js';
-import './render-full-picture.js';
+import './thumbnail.js';
+import './full-picture.js';
+import './form.js';

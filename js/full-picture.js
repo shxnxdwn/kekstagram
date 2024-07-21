@@ -31,6 +31,7 @@ const renderComment = ({ name, avatar, message }) => {
   return pictureComment;
 };
 
+
 const renderCommentList = (comments, container, commentsFrom, commentAmount) => {
   clearElement(container);
 
@@ -39,6 +40,7 @@ const renderCommentList = (comments, container, commentsFrom, commentAmount) => 
   }
   commentsFrom.textContent = commentAmount;
 };
+
 
 const renderFullPicture = ({ url, description, likes, comments }) => {
   const pictureImg = fullPictureContainer.querySelector('.big-picture__img > img');
@@ -55,8 +57,7 @@ const renderFullPicture = ({ url, description, likes, comments }) => {
   const pictureCommentsTotal = fullPictureContainer.querySelector('.social__comment-total-count');
   const commentLoader = fullPictureContainer.querySelector('.social__comments-loader');
 
-  const totalCommentCount = comments.length;
-  pictureCommentsTotal.textContent = totalCommentCount;
+  pictureCommentsTotal.textContent = comments.length;
 
   clearElement(pictureCommentsContainer);
 
@@ -64,6 +65,7 @@ const renderFullPicture = ({ url, description, likes, comments }) => {
   onClickLoadMore();
   commentLoader.addEventListener('click', onClickLoadMore);
 };
+
 
 function onClickLoadMoreClosure(comments, container, commentsFrom, commentLoader) {
   let currentCount = 0;
@@ -82,6 +84,7 @@ function onClickLoadMoreClosure(comments, container, commentsFrom, commentLoader
   };
 }
 
+
 function onDocumentKeydownEscape(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
@@ -92,6 +95,7 @@ function onDocumentKeydownEscape(evt) {
 function onClickCloseButton() {
   closeFullPicture();
 }
+
 
 function openFullPicture() {
   fullPictureContainer.classList.remove('hidden');
@@ -116,9 +120,9 @@ picturesContainer.addEventListener('click', (evt) => {
   const isClickOnPicture = evt.target.closest('.picture');
 
   if (isClickOnPicture) {
-    const choosenImgElement = isClickOnPicture.querySelector('img');
-    const choosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(choosenImgElement.dataset.id));
-    renderFullPicture(choosenPicture);
+    const chosenImgElement = isClickOnPicture.querySelector('img');
+    const chosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(chosenImgElement.dataset.id));
+    renderFullPicture(chosenPicture);
     openFullPicture();
   }
 });
