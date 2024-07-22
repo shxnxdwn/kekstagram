@@ -2,6 +2,48 @@ import { setupValidation } from './form-validation';
 
 const SCALE_STEP = 25;
 
+const EFFECTS = {
+  none: 'none',
+  chrome: 'grayscale(1)',
+  sepia: 'sepia(1)',
+  marvin: 'invert(100%)',
+  phobos: 'blur(3px)',
+  heat: 'brightness(3)'
+};
+
+const SLIDER_OPTIONS = {
+  none: {
+    range: { min: 0, max: 100 },
+    start: 100,
+    step: 1,
+  },
+  chrome: {
+    range: { min: 0, max: 1 },
+    start: 1,
+    step: 0.1,
+  },
+  sepia: {
+    range: { min: 0, max: 1 },
+    start: 1,
+    step: 0.1,
+  },
+  marvin: {
+    range: { min: 0, max: 100 },
+    start: 100,
+    step: 1,
+  },
+  phobos: {
+    range: { min: 0, max: 3 },
+    start: 3,
+    step: 0.1,
+  },
+  heat: {
+    range: { min: 1, max: 3 },
+    start: 3,
+    step: 0.1,
+  }
+};
+
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = pictureUploadForm.querySelector('.img-upload__input');
 const pictureUploadOverlay = pictureUploadForm.querySelector('.img-upload__overlay');
@@ -13,9 +55,40 @@ const pictureScaleSmallerButton = pictureScaleField.querySelector('.scale__contr
 const pictureScaleBiggerButton = pictureScaleField.querySelector('.scale__control--bigger');
 const pictureScaleValue = pictureScaleField.querySelector('.scale__control--value');
 
+const effectLevelField = document.querySelector('.effect-level');
+const sliderElement = effectLevelField.querySelector('.effect-level__slider');
+const valueElement = effectLevelField.querySelector('.effect-level__value');
+const effectList = document.querySelector('.effects__list');
+
 const picturePreviewText = pictureUploadOverlay.querySelector('.img-upload__text');
 const hashtagInput = pictureUploadOverlay.querySelector('.text__hashtags');
 const commentInput = pictureUploadOverlay.querySelector('.text__description');
+
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100
+  },
+  start: 100,
+  step: 1,
+  connect: 'lower'
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  valueElement.value = Number(sliderElement.noUiSlider.get()).toFixed(0);
+  console.log(valueElement.value);
+});
+
+
+const applyEffect = (evt) => {
+  const inputElement = evt.target.closest('input[type="radio"]');
+
+  if (inputElement) {
+    const chosenFilter = inputElement.value;
+    picturePreview.style.filter = EFFECTS[chosenFilter] ?? 'none';
+  }
+};
 
 
 const openPictureUploadOverlay = (event) => {
@@ -39,6 +112,9 @@ const openPictureUploadOverlay = (event) => {
 
     pictureScaleSmallerButton.addEventListener('click', onClickScaleSmallerButton);
     pictureScaleBiggerButton.addEventListener('click', onClickScaleBiggerButton);
+
+    effectList.addEventListener('click', applyEffect);
+    effectList.addEventListener('change', applyEffect);
 
     hashtagInput.addEventListener('keydown', onInputKeydownEscape);
     commentInput.addEventListener('keydown', onInputKeydownEscape);
@@ -76,6 +152,9 @@ const closePictureUploadOverlay = () => {
 
   pictureScaleSmallerButton.removeEventListener('click', onClickScaleSmallerButton);
   pictureScaleBiggerButton.removeEventListener('click', onClickScaleBiggerButton);
+
+  effectList.removeEventListener('click', applyEffect);
+  effectList.removeEventListener('change', applyEffect);
 
   hashtagInput.removeEventListener('keydown', onInputKeydownEscape);
   commentInput.removeEventListener('keydown', onInputKeydownEscape);
