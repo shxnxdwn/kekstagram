@@ -77,6 +77,7 @@ const closePictureUploadOverlay = () => {
   commentInput.removeEventListener('keydown', onInputKeydownEscape);
 };
 
+
 function onClickCloseButton() {
   closePictureUploadOverlay();
 }

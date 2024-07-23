@@ -16,6 +16,7 @@ const SLIDER_OPTIONS = {
   heat: { range: { min: 1, max: 3 }, start: 3, step: 0.1 }
 };
 
+
 const effectLevelField = document.querySelector('.effect-level');
 const sliderElement = effectLevelField.querySelector('.effect-level__slider');
 const valueElement = effectLevelField.querySelector('.effect-level__value');
@@ -58,6 +59,7 @@ const applyEffect = (evt) => {
   }
 };
 
+
 const destroySlider = () => {
   if (sliderInitialized) {
     sliderElement.noUiSlider.destroy();
@@ -65,5 +67,6 @@ const destroySlider = () => {
     sliderInitialized = false;
   }
 };
+
 
 export { applyEffect, initializeSlider, destroySlider };

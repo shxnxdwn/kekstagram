@@ -2,11 +2,12 @@ import { clearElement } from './functions/clear-element.js';
 import { CREATED_PICTURES } from './data.js';
 
 const COMMENTS_VISIBLE_STEP = 5;
-let onClickLoadMore;
 
 const picturesContainer = document.querySelector('.pictures');
 const fullPictureContainer = document.querySelector('.big-picture');
 const closeButton = fullPictureContainer.querySelector('.big-picture__cancel');
+
+let onClickLoadMore;
 
 
 const renderComment = ({ name, avatar, message }) => {

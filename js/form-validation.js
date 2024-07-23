@@ -65,7 +65,6 @@ const setupValidation = (form, hashtagInput, commentInput) => {
     } else {
       console.log('Форма не отправлена');
     }
-
   });
 };
 
