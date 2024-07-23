@@ -61,6 +61,7 @@ const applyEffect = (evt) => {
 const destroySlider = () => {
   if (sliderInitialized) {
     sliderElement.noUiSlider.destroy();
+    currentEffect = 'none';
     sliderInitialized = false;
   }
 };
