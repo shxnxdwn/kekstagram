@@ -2,46 +2,22 @@ import { setupValidation } from './form-validation';
 
 const SCALE_STEP = 25;
 
-const EFFECTS = {
-  none: 'none',
-  chrome: 'grayscale(1)',
-  sepia: 'sepia(1)',
-  marvin: 'invert(100%)',
-  phobos: 'blur(3px)',
-  heat: 'brightness(3)'
+const PICTURE_EFFECTS = {
+  none: () => 'none',
+  chrome: (value) => `grayscale(${value})`,
+  sepia: (value) => `sepia(${value})`,
+  marvin: (value) => `invert(${value}%)`,
+  phobos: (value) => `blur(${value}px)`,
+  heat: (value) => `brightness(${value})`
 };
 
 const SLIDER_OPTIONS = {
-  none: {
-    range: { min: 0, max: 100 },
-    start: 100,
-    step: 1,
-  },
-  chrome: {
-    range: { min: 0, max: 1 },
-    start: 1,
-    step: 0.1,
-  },
-  sepia: {
-    range: { min: 0, max: 1 },
-    start: 1,
-    step: 0.1,
-  },
-  marvin: {
-    range: { min: 0, max: 100 },
-    start: 100,
-    step: 1,
-  },
-  phobos: {
-    range: { min: 0, max: 3 },
-    start: 3,
-    step: 0.1,
-  },
-  heat: {
-    range: { min: 1, max: 3 },
-    start: 3,
-    step: 0.1,
-  }
+  none: { range: { min: 0, max: 100 }, start: 100, step: 1 },
+  chrome: { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
+  sepia: { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
+  marvin: { range: { min: 0, max: 100 }, start: 100, step: 1 },
+  phobos: { range: { min: 0, max: 3 }, start: 3, step: 0.1 },
+  heat: { range: { min: 1, max: 3 }, start: 3, step: 0.1 }
 };
 
 const pictureUploadForm = document.querySelector('.img-upload__form');
@@ -64,20 +40,15 @@ const picturePreviewText = pictureUploadOverlay.querySelector('.img-upload__text
 const hashtagInput = pictureUploadOverlay.querySelector('.text__hashtags');
 const commentInput = pictureUploadOverlay.querySelector('.text__description');
 
+let currentEffect = 'none';
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 100
-  },
-  start: 100,
-  step: 1,
-  connect: 'lower'
-});
+
+noUiSlider.create(sliderElement, SLIDER_OPTIONS.none);
 
 sliderElement.noUiSlider.on('update', () => {
-  valueElement.value = Number(sliderElement.noUiSlider.get()).toFixed(0);
-  console.log(valueElement.value);
+  const value = Number(sliderElement.noUiSlider.get()).toFixed(1);
+  valueElement.value = value;
+  picturePreview.style.filter = PICTURE_EFFECTS[currentEffect](value);
 });
 
 
@@ -86,7 +57,17 @@ const applyEffect = (evt) => {
 
   if (inputElement) {
     const chosenFilter = inputElement.value;
-    picturePreview.style.filter = EFFECTS[chosenFilter] ?? 'none';
+    currentEffect = chosenFilter;
+    picturePreview.style.filter = PICTURE_EFFECTS[chosenFilter](SLIDER_OPTIONS[chosenFilter].start);
+
+    sliderElement.noUiSlider.updateOptions(SLIDER_OPTIONS[chosenFilter]);
+    sliderElement.noUiSlider.set(SLIDER_OPTIONS[chosenFilter].start);
+
+    if (chosenFilter === 'none') {
+      effectLevelField.classList.add('hidden');
+    } else {
+      effectLevelField.classList.remove('hidden');
+    }
   }
 };
 
