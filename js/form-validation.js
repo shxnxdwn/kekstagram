@@ -1,3 +1,5 @@
+import { formatHashtags } from './functions/formatHashtags';
+
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 
@@ -29,18 +31,18 @@ const setupValidation = (form, hashtagInput, commentInput) => {
       return true;
     }
 
-    const hashtags = value.trim().split(/\s+/);
+    const hashtags = formatHashtags(value, false);
     const hashtagValidationRegexp = /^#[a-zа-яё0-9]{1,19}$/i;
 
     return hashtags.every((hashtag) => hashtagValidationRegexp.test(hashtag));
   };
 
 
-  const isValidHashtagMaxCount = (value) => value.trim().split(/\s+/).length <= MAX_HASHTAG_COUNT;
+  const isValidHashtagMaxCount = (value) => formatHashtags(value, false).length <= MAX_HASHTAG_COUNT;
 
 
   const isHashtagsRepeat = (value) => {
-    const hashtags = value.trim().toLowerCase().split(/\s+/);
+    const hashtags = formatHashtags(value, true);
     const uniqueHashtags = new Set(hashtags);
 
     return uniqueHashtags.size === hashtags.length;
