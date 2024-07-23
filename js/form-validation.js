@@ -22,9 +22,7 @@ const setupValidation = (form, hashtagInput, commentInput) => {
     errorTextClass: 'img-upload__field-wrapper--error',
   });
 
-
   const isValidCommentMaxLength = (value) => value.length <= MAX_COMMENT_LENGTH;
-
 
   const isValidHashtag = (value) => {
     if (!value) {
@@ -37,9 +35,7 @@ const setupValidation = (form, hashtagInput, commentInput) => {
     return hashtags.every((hashtag) => hashtagValidationRegexp.test(hashtag));
   };
 
-
   const isValidHashtagMaxCount = (value) => formatHashtags(value, false).length <= MAX_HASHTAG_COUNT;
-
 
   const isHashtagsRepeat = (value) => {
     const hashtags = formatHashtags(value, true);

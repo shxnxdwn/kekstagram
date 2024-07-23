@@ -6,7 +6,7 @@ const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = pictureUploadForm.querySelector('.img-upload__input');
 const pictureUploadOverlay = pictureUploadForm.querySelector('.img-upload__overlay');
 const picturePreview = pictureUploadOverlay.querySelector('.img-upload__preview > img');
-const picturePreviewCloseButton = pictureUploadOverlay.querySelector('.img-upload__cancel');
+const pictureUploadCloseButton = pictureUploadOverlay.querySelector('.img-upload__cancel');
 
 const effectList = document.querySelector('.effects__list');
 const hashtagInput = pictureUploadOverlay.querySelector('.text__hashtags');
@@ -28,7 +28,7 @@ const openPictureUploadOverlay = (event) => {
     pictureUploadOverlay.classList.remove('hidden');
     document.body.classList.add('modal-open');
 
-    picturePreviewCloseButton.addEventListener('click', onClickCloseButton);
+    pictureUploadCloseButton.addEventListener('click', onClickCloseButton);
     document.addEventListener('keydown', onDocumentKeydownEscape);
 
     initializeScale();
@@ -68,7 +68,7 @@ const closePictureUploadOverlay = () => {
   destroyScale();
   destroySlider();
 
-  picturePreviewCloseButton.removeEventListener('click', onClickCloseButton);
+  pictureUploadCloseButton.removeEventListener('click', onClickCloseButton);
   document.removeEventListener('keydown', onDocumentKeydownEscape);
 
   effectList.removeEventListener('change', applyEffect);
