@@ -14,7 +14,7 @@ const COMMENT_ERRORS = {
 };
 
 
-const setupValidation = (form, hashtagInput, commentInput) => {
+const setupValidation = (form, hashtagInput, commentInput, onSuccess) => {
 
   const pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
@@ -50,16 +50,12 @@ const setupValidation = (form, hashtagInput, commentInput) => {
   pristine.addValidator(hashtagInput, isValidHashtagMaxCount, HASHTAG_ERRORS.MAX_COUNT);
   pristine.addValidator(hashtagInput, isHashtagsRepeat, HASHTAG_ERRORS.REPEAT);
 
-
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    // TODO: remove console.log
-    /* eslint-disable no-console */
     if (pristine.validate()) {
-      console.log('Форма отправлена');
-    } else {
-      console.log('Форма не отправлена');
+      const formData = new FormData(this);
+      onSuccess(formData);
     }
   });
 };

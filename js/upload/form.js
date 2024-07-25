@@ -1,6 +1,8 @@
+import { sendForm } from './send-form';
 import { setupValidation } from './validation';
 import { applyEffect, initializeSlider, destroySlider } from './effects';
 import { initializeScale, destroyScale } from './scale';
+
 
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = pictureUploadForm.querySelector('.img-upload__input');
@@ -39,7 +41,7 @@ const openPictureUploadOverlay = (event) => {
     hashtagInput.addEventListener('keydown', onInputKeydownEscape);
     commentInput.addEventListener('keydown', onInputKeydownEscape);
 
-    setupValidation(pictureUploadForm, hashtagInput, commentInput);
+    setupValidation(pictureUploadForm, hashtagInput, commentInput, sendForm);
   }
 };
 
@@ -96,3 +98,6 @@ function onInputKeydownEscape(evt) {
 }
 
 pictureUploadInput.addEventListener('change', openPictureUploadOverlay);
+
+
+export { closePictureUploadOverlay };
