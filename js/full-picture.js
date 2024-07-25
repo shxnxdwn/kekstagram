@@ -1,5 +1,4 @@
 import { clearElement } from './functions/clear-element.js';
-import { CREATED_PICTURES } from './data.js';
 
 const COMMENTS_VISIBLE_STEP = 5;
 
@@ -8,6 +7,12 @@ const fullPictureContainer = document.querySelector('.big-picture');
 const closeButton = fullPictureContainer.querySelector('.big-picture__cancel');
 
 let onClickLoadMore;
+let picturesData = [];
+
+
+const setPicturesData = (data) => {
+  picturesData = data;
+};
 
 
 const renderComment = ({ name, avatar, message }) => {
@@ -122,8 +127,10 @@ picturesContainer.addEventListener('click', (evt) => {
 
   if (isClickOnPicture) {
     const chosenImgElement = isClickOnPicture.querySelector('img');
-    const chosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(chosenImgElement.dataset.id));
+    const chosenPicture = picturesData.find((picture) => picture.id === Number(chosenImgElement.dataset.id));
     renderFullPicture(chosenPicture);
     openFullPicture();
   }
 });
+
+export { setPicturesData };

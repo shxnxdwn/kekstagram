@@ -1,4 +1,4 @@
-import { formatHashtags } from './functions/formatHashtags';
+import { formatHashtags } from '../functions/formatHashtags';
 
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
