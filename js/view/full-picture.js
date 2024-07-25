@@ -1,4 +1,4 @@
-import { clearElement } from './functions/clear-element.js';
+import { clearElement } from '../functions/clear-element.js';
 
 const COMMENTS_VISIBLE_STEP = 5;
 

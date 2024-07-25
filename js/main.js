@@ -1,6 +1,6 @@
-import { renderThumb } from'./thumbnail.js';
-import { setPicturesData } from './full-picture.js';
-import './form/form.js';
+import { renderThumb } from './view/thumbnail.js';
+import { setPicturesData } from './view/full-picture.js';
+import './upload/form.js';
 
 
 fetch('https://32.javascript.htmlacademy.pro/kekstagram/data')

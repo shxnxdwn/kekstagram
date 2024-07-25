@@ -1,4 +1,4 @@
-import { setupValidation } from './form-validation';
+import { setupValidation } from './validation';
 import { applyEffect, initializeSlider, destroySlider } from './effects';
 import { initializeScale, destroyScale } from './scale';
 
