@@ -8,7 +8,12 @@ const sendForm = (formData) => {
     method: 'POST',
     body: formData
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Not OK');
+    })
     .then((data) => {
       console.log('Success: ', data);
       closePictureUploadOverlay();
