@@ -1,7 +1,7 @@
 import { closePictureUploadOverlay } from './form.js';
 
 // TODO: remove console.log
-/* eslint-disable-no-console */
+/* eslint-disable */
 
 const sendForm = (formData) => {
   fetch('https://32.javascript.htmlacademy.pro/kekstagram', {

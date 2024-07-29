@@ -126,6 +126,7 @@ picturesContainer.addEventListener('click', (evt) => {
   const isClickOnPicture = evt.target.closest('.picture');
 
   if (isClickOnPicture) {
+    evt.preventDefault();
     const chosenImgElement = isClickOnPicture.querySelector('img');
     const chosenPicture = picturesData.find((picture) => picture.id === Number(chosenImgElement.dataset.id));
     renderFullPicture(chosenPicture);
