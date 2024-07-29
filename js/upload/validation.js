@@ -14,13 +14,14 @@ const COMMENT_ERRORS = {
 };
 
 
-const setupValidation = (form, hashtagInput, commentInput, onSuccessSendCallback) => {
+const setupValidation = (form, hashtagInput, commentInput) => {
 
   const pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper',
     errorTextClass: 'img-upload__field-wrapper--error',
   });
+
 
   const isValidCommentMaxLength = (value) => value.length <= MAX_COMMENT_LENGTH;
 
@@ -54,17 +55,7 @@ const setupValidation = (form, hashtagInput, commentInput, onSuccessSendCallback
   pristine.addValidator(hashtagInput, isHashtagsRepeat, HASHTAG_ERRORS.REPEAT);
 
 
-  const onClickSubmitButton = (evt) => {
-    evt.preventDefault();
-
-    if (pristine.validate()) {
-      const formData = new FormData(evt.currentTarget);
-      onSuccessSendCallback(formData);
-      form.removeEventListener('submit', onClickSubmitButton);
-    }
-  };
-
-  form.addEventListener('submit', onClickSubmitButton);
+  return pristine;
 };
 
 export { setupValidation };

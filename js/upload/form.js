@@ -1,7 +1,7 @@
-import { sendForm } from './send-form';
-import { setupValidation } from './validation';
 import { applyEffect, initializeSlider, destroySlider } from './effects';
 import { initializeScale, destroyScale } from './scale';
+import { setupValidation } from './validation';
+import { sendForm } from './send-form';
 
 
 const pictureUploadForm = document.querySelector('.img-upload__form');
@@ -41,7 +41,20 @@ const openPictureUploadOverlay = (event) => {
     hashtagInput.addEventListener('keydown', onInputKeydownEscape);
     commentInput.addEventListener('keydown', onInputKeydownEscape);
 
-    setupValidation(pictureUploadForm, hashtagInput, commentInput, sendForm);
+
+    const pristine = setupValidation(pictureUploadForm, hashtagInput, commentInput);
+
+    const onClickSubmitButton = (evt) => {
+      evt.preventDefault();
+
+      if (pristine.validate()) {
+        const formData = new FormData(evt.currentTarget);
+        sendForm(formData);
+        pictureUploadForm.removeEventListener('submit', onClickSubmitButton);
+      }
+    };
+
+    pictureUploadForm.addEventListener('submit', onClickSubmitButton);
   }
 };
 
