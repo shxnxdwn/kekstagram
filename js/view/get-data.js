@@ -1,4 +1,4 @@
-const DATA_URL = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
+const GET_DATA_URL = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
 const ERROR_MESSAGE_TIMEOUT = 5000;
 
 
@@ -12,12 +12,12 @@ const onError = () => {
 };
 
 
-const getData = (renderThumbFunction, setPicturesDataFunction) => {
-  fetch(DATA_URL)
+const getData = (renderThumbCallback, setPicturesDataCallback) => {
+  fetch(GET_DATA_URL)
     .then((response) => response.json())
     .then((picturesData) => {
-      renderThumbFunction(picturesData);
-      setPicturesDataFunction(picturesData);
+      renderThumbCallback(picturesData);
+      setPicturesDataCallback(picturesData);
     })
     .catch(() => {
       onError();

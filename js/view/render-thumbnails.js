@@ -1,7 +1,6 @@
-const renderThumb = (picturesData) => {
+const renderThumbnails = (picturesData) => {
   const picturesContainer = document.querySelector('.pictures');
   const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
   const pictureFragment = new DocumentFragment();
 
   picturesData.forEach(({ id, url, description, likes, comments }) => {
@@ -24,4 +23,4 @@ const renderThumb = (picturesData) => {
   picturesContainer.append(pictureFragment);
 };
 
-export { renderThumb };
+export { renderThumbnails };

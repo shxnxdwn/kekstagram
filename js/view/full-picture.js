@@ -44,6 +44,7 @@ const renderCommentList = (comments, container, commentsFrom, commentAmount) => 
   for (let i = 0; i < Math.min(comments.length, commentAmount); i++) {
     container.append(renderComment(comments[i]));
   }
+
   commentsFrom.textContent = commentAmount;
 };
 
@@ -111,6 +112,7 @@ function openFullPicture() {
   document.addEventListener('keydown', onDocumentKeydownEscape);
 }
 
+
 function closeFullPicture() {
   document.body.classList.remove('modal-open');
   fullPictureContainer.classList.add('hidden');
@@ -122,16 +124,20 @@ function closeFullPicture() {
   document.removeEventListener('keydown', onDocumentKeydownEscape);
 }
 
+
 picturesContainer.addEventListener('click', (evt) => {
   const isClickOnPicture = evt.target.closest('.picture');
 
   if (isClickOnPicture) {
     evt.preventDefault();
+
     const chosenImgElement = isClickOnPicture.querySelector('img');
     const chosenPicture = picturesData.find((picture) => picture.id === Number(chosenImgElement.dataset.id));
+
     renderFullPicture(chosenPicture);
     openFullPicture();
   }
 });
+
 
 export { setPicturesData };

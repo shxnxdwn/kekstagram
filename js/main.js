@@ -1,8 +1,8 @@
-import { renderThumb } from './view/thumbnail';
+import { renderThumbnails } from './view/render-thumbnails';
 import { setPicturesData} from './view/full-picture';
 import { getData } from './view/get-data';
 
 import './upload/form.js';
 
 
-getData(renderThumb, setPicturesData);
+getData(renderThumbnails, setPicturesData);

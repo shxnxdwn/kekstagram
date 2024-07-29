@@ -14,7 +14,7 @@ const COMMENT_ERRORS = {
 };
 
 
-const setupValidation = (form, hashtagInput, commentInput, onSuccess) => {
+const setupValidation = (form, hashtagInput, commentInput, onSuccessSendCallback) => {
 
   const pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
@@ -23,6 +23,7 @@ const setupValidation = (form, hashtagInput, commentInput, onSuccess) => {
   });
 
   const isValidCommentMaxLength = (value) => value.length <= MAX_COMMENT_LENGTH;
+
 
   const isValidHashtag = (value) => {
     if (!value) {
@@ -35,7 +36,9 @@ const setupValidation = (form, hashtagInput, commentInput, onSuccess) => {
     return hashtags.every((hashtag) => hashtagValidationRegexp.test(hashtag));
   };
 
+
   const isValidHashtagMaxCount = (value) => formatHashtags(value, false).length <= MAX_HASHTAG_COUNT;
+
 
   const isHashtagsRepeat = (value) => {
     const hashtags = formatHashtags(value, true);
@@ -50,14 +53,18 @@ const setupValidation = (form, hashtagInput, commentInput, onSuccess) => {
   pristine.addValidator(hashtagInput, isValidHashtagMaxCount, HASHTAG_ERRORS.MAX_COUNT);
   pristine.addValidator(hashtagInput, isHashtagsRepeat, HASHTAG_ERRORS.REPEAT);
 
-  form.addEventListener('submit', (evt) => {
+
+  const onClickSubmitButton = (evt) => {
     evt.preventDefault();
 
     if (pristine.validate()) {
-      const formData = new FormData(this);
-      onSuccess(formData);
+      const formData = new FormData(evt.currentTarget);
+      onSuccessSendCallback(formData);
+      form.removeEventListener('submit', onClickSubmitButton);
     }
-  });
+  };
+
+  form.addEventListener('submit', onClickSubmitButton);
 };
 
 export { setupValidation };
