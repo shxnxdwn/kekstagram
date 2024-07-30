@@ -5,96 +5,44 @@ const SEND_DATA_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 const submitButton = document.querySelector('.img-upload__submit');
 
 
-const onSuccessSend = () => {
-  const successElement = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-  const successButton = successElement.querySelector('.success__button');
+const showNotification = (type) => {
+  const template = document.querySelector(`#${type}`).content.querySelector(`.${type}`);
+  const notificationElement = template.cloneNode(true);
+  const button = notificationElement.querySelector(`.${type}__button`);
 
-  document.body.append(successElement);
-
-  successButton.addEventListener('click', onClickSuccessButton);
-  successElement.addEventListener('click', onClickOverlay);
-  document.addEventListener('keydown', onDocumentKeydownEscape);
+  document.body.append(notificationElement);
 
 
-  function onClickSuccessButton() {
-    successButton.removeEventListener('click', onClickSuccessButton);
-    successElement.removeEventListener('click', onClickOverlay);
-    document.removeEventListener('keydown', onDocumentKeydownEscape);
-
-    successElement.remove();
-  }
+  const onClickButton = () => {
+    closeNotification(notificationElement, button);
+  };
 
 
-  function onClickOverlay(event) {
-    if (event.target.closest('.success__inner')) {
-      return;
+  const onClickOverlay = (event) => {
+    if (!event.target.closest(`.${type}__inner`)) {
+      closeNotification(notificationElement, button);
     }
-
-    successButton.removeEventListener('click', onClickSuccessButton);
-    successElement.removeEventListener('click', onClickOverlay);
-    document.removeEventListener('keydown', onDocumentKeydownEscape);
-
-    successElement.remove();
-  }
+  };
 
 
-  function onDocumentKeydownEscape(event) {
+  const onKeydownEscape = (event) => {
     if (event.key === 'Escape') {
       event.preventDefault();
-
-      successButton.removeEventListener('click', onClickSuccessButton);
-      successElement.removeEventListener('click', onClickOverlay);
-      document.removeEventListener('keydown', onDocumentKeydownEscape);
-
-      successElement.remove();
+      closeNotification(notificationElement, button);
     }
-  }
-};
+  };
 
 
-const onErrorSend = () => {
-  const errorElement = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-  const errorButton = errorElement.querySelector('.error__button');
-
-  document.body.append(errorElement);
-
-  errorButton.addEventListener('click', onClickErrorButton);
-  errorElement.addEventListener('click', onClickOverlay);
-  document.addEventListener('keydown', onDocumentKeydownEscape);
+  button.addEventListener('click', onClickButton);
+  notificationElement.addEventListener('click', onClickOverlay);
+  document.addEventListener('keydown', onKeydownEscape);
 
 
-  function onClickErrorButton() {
-    errorButton.removeEventListener('click', onClickErrorButton);
-    errorElement.removeEventListener('click', onClickOverlay);
-    document.removeEventListener('keydown', onDocumentKeydownEscape);
-
-    errorElement.remove();
-  }
-
-
-  function onClickOverlay(event) {
-    if (event.target.closest('.error__inner')) {
-      return;
-    }
-
-    errorButton.removeEventListener('click', onClickErrorButton);
-    errorElement.removeEventListener('click', onClickOverlay);
-    document.removeEventListener('keydown', onDocumentKeydownEscape);
-
-    errorElement.remove();
-  }
-
-
-  function onDocumentKeydownEscape(event) {
-    if (event.key === 'Escape') {
-      event.preventDefault();
-
-      errorButton.removeEventListener('click', onClickErrorButton);
-      errorElement.removeEventListener('click', onClickOverlay);
-      document.removeEventListener('keydown', onDocumentKeydownEscape);
-
-      errorElement.remove();
-    }
+  function closeNotification (element, buttonElement) {
+    buttonElement.removeEventListener('click', onClickButton);
+    element.removeEventListener('click', onClickOverlay);
+    document.removeEventListener('keydown', onKeydownEscape);
+    element.remove();
   }
 };
 
@@ -109,18 +57,17 @@ const sendForm = (formData) => {
     .then((response) => {
       if (response.ok) {
         closePictureUploadOverlay();
-        onSuccessSend();
+        showNotification('success');
       } else {
-        onErrorSend();
+        showNotification('error');
       }
     })
     .catch(() => {
-      onErrorSend();
+      showNotification('error');
     })
     .finally(() => {
       submitButton.disabled = false;
     });
 };
-
 
 export { sendForm };
