@@ -33,6 +33,18 @@ const onInputKeydownEscape = (evt) => {
 };
 
 
+const onClickSubmitButton = (evt) => {
+  evt.preventDefault();
+
+  const pristine = setupValidation(pictureUploadForm, hashtagInput, commentInput);
+
+  if (pristine.validate()) {
+    const formData = new FormData(evt.currentTarget);
+    sendForm(formData);
+  }
+};
+
+
 const openPictureUploadOverlay = (event) => {
   const [file] = event.target.files;
 
@@ -63,18 +75,6 @@ const openPictureUploadOverlay = (event) => {
     hashtagInput.addEventListener('keydown', onInputKeydownEscape);
     commentInput.addEventListener('keydown', onInputKeydownEscape);
 
-    const pristine = setupValidation(pictureUploadForm, hashtagInput, commentInput);
-
-    const onClickSubmitButton = (evt) => {
-      evt.preventDefault();
-
-      if (pristine.validate()) {
-        const formData = new FormData(evt.currentTarget);
-        sendForm(formData);
-        pictureUploadForm.removeEventListener('submit', onClickSubmitButton);
-      }
-    };
-
     pictureUploadForm.addEventListener('submit', onClickSubmitButton);
   }
 };
@@ -86,6 +86,7 @@ const clearForm = () => {
   picturePreview.style.filter = 'none';
   hashtagInput.value = '';
   commentInput.value = '';
+  pictureUploadInput.value = null;
 
   document.querySelector('.scale__control--value').value = '100%';
   document.querySelector('.effect-level__value').value = '';
@@ -105,6 +106,7 @@ const removeEventListeners = () => {
 function closePictureUploadOverlay() {
   document.body.classList.remove('modal-open');
   pictureUploadOverlay.classList.add('hidden');
+  pictureUploadForm.removeEventListener('submit', onClickSubmitButton);
 
   clearForm();
   destroyScale();
