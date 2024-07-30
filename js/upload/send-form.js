@@ -70,4 +70,4 @@ const sendForm = (formData) => {
     });
 };
 
-export { sendForm };
+export { showNotification, sendForm };

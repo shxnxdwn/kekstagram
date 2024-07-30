@@ -1,7 +1,9 @@
 import { applyEffect, initializeSlider, destroySlider } from './effects';
 import { initializeScale, destroyScale } from './scale';
 import { setupValidation } from './validation';
-import { sendForm } from './send-form';
+import { showNotification, sendForm } from './send-form';
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = pictureUploadForm.querySelector('.img-upload__input');
@@ -13,6 +15,9 @@ const pictureUploadCloseButton = pictureUploadOverlay.querySelector('.img-upload
 const effectList = document.querySelector('.effects__list');
 const hashtagInput = pictureUploadOverlay.querySelector('.text__hashtags');
 const commentInput = pictureUploadOverlay.querySelector('.text__description');
+
+
+const isCorrectFileType = (file) => FILE_TYPES.some((extension) => file.name.toLowerCase().endsWith(extension));
 
 
 const onClickCloseButton = () => {
@@ -48,7 +53,7 @@ const onClickSubmitButton = (evt) => {
 const openPictureUploadOverlay = (event) => {
   const [file] = event.target.files;
 
-  if (file) {
+  if (file && isCorrectFileType(file)) {
     const reader = new FileReader();
 
     reader.onload = (evt) => {
@@ -76,6 +81,9 @@ const openPictureUploadOverlay = (event) => {
     commentInput.addEventListener('keydown', onInputKeydownEscape);
 
     pictureUploadForm.addEventListener('submit', onClickSubmitButton);
+  } else {
+    showNotification('error');
+    pictureUploadInput.value = null;
   }
 };
 
