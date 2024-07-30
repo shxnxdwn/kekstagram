@@ -12,12 +12,13 @@ const onError = () => {
 };
 
 
-const getData = (renderThumbCallback, setPicturesDataCallback) => {
+const getData = (renderThumbCb, setPicturesDataCb, showFilterListCb) => {
   fetch(GET_DATA_URL)
     .then((response) => response.json())
     .then((picturesData) => {
-      renderThumbCallback(picturesData);
-      setPicturesDataCallback(picturesData);
+      renderThumbCb(picturesData);
+      setPicturesDataCb(picturesData);
+      showFilterListCb(picturesData, renderThumbCb);
     })
     .catch(() => {
       onError();
