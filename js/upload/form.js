@@ -7,6 +7,7 @@ const pictureUploadForm = document.querySelector('.img-upload__form');
 const pictureUploadInput = pictureUploadForm.querySelector('.img-upload__input');
 const pictureUploadOverlay = pictureUploadForm.querySelector('.img-upload__overlay');
 const picturePreview = pictureUploadOverlay.querySelector('.img-upload__preview > img');
+const pictureEffectsList = pictureUploadOverlay.querySelectorAll('.effects__preview');
 const pictureUploadCloseButton = pictureUploadOverlay.querySelector('.img-upload__cancel');
 
 const effectList = document.querySelector('.effects__list');
@@ -40,6 +41,10 @@ const openPictureUploadOverlay = (event) => {
 
     reader.onload = (evt) => {
       picturePreview.src = evt.target.result;
+
+      for (const effect of pictureEffectsList) {
+        effect.style.backgroundImage = `url('${evt.target.result}')`;
+      }
     };
 
     reader.readAsDataURL(file);
