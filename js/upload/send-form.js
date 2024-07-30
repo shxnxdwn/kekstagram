@@ -108,17 +108,17 @@ const sendForm = (formData) => {
   })
     .then((response) => {
       if (response.ok) {
-        submitButton.disabled = false;
         closePictureUploadOverlay();
         onSuccessSend();
       } else {
-        submitButton.disabled = false;
         onErrorSend();
       }
     })
     .catch(() => {
-      submitButton.disabled = false;
       onErrorSend();
+    })
+    .finally(() => {
+      submitButton.disabled = false;
     });
 };
 
