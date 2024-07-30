@@ -1,5 +1,3 @@
-import { formatHashtags } from '../functions/format-hashtags.js';
-
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 const HASHTAG_VALIDATION_REGEXP = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -22,22 +20,25 @@ const setupValidation = (form, hashtagInput, commentInput) => {
     errorTextClass: 'img-upload__field-wrapper--error',
   });
 
+  const normalizeHashtags = (value) => value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+
   const isValidCommentMaxLength = (value) => value.length <= MAX_COMMENT_LENGTH;
 
   const isValidHashtag = (value) => {
     if (!value) {
       return true;
     }
-
-    const hashtags = formatHashtags(value, false);
+    const hashtags = normalizeHashtags(value);
     return hashtags.every((hashtag) => HASHTAG_VALIDATION_REGEXP.test(hashtag));
   };
 
-  const isValidHashtagMaxCount = (value) => formatHashtags(value, false).length <= MAX_HASHTAG_COUNT;
-
+  const isValidHashtagMaxCount = (value) => {
+    const hashtags = normalizeHashtags(value);
+    return hashtags.length <= MAX_HASHTAG_COUNT;
+  };
 
   const isHashtagsRepeat = (value) => {
-    const hashtags = formatHashtags(value, true);
+    const hashtags = normalizeHashtags(value);
     const uniqueHashtags = new Set(hashtags);
     return uniqueHashtags.size === hashtags.length;
   };

@@ -1,7 +1,7 @@
 import { applyEffect, initializeSlider, destroySlider } from './effects';
 import { initializeScale, destroyScale } from './scale';
 import { setupValidation } from './validation';
-import { showNotification, sendForm } from './send-form';
+import { sendForm } from './send-form';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
@@ -81,9 +81,6 @@ const openPictureUploadOverlay = (event) => {
     commentInput.addEventListener('keydown', onInputKeydownEscape);
 
     pictureUploadForm.addEventListener('submit', onClickSubmitButton);
-  } else {
-    showNotification('error');
-    pictureUploadInput.value = null;
   }
 };
 

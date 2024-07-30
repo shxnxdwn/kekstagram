@@ -33,8 +33,8 @@ const initializeSlider = () => {
   }
 
   sliderElement.noUiSlider.on('update', () => {
-    const value = Number(sliderElement.noUiSlider.get()).toFixed(1);
-    valueElement.value = value;
+    const value = Number(sliderElement.noUiSlider.get());
+    valueElement.value = value % 1 === 0 ? value.toFixed(0) : value.toFixed(1);
     picturePreview.style.filter = PICTURE_EFFECTS[currentEffect](value);
   });
 };
