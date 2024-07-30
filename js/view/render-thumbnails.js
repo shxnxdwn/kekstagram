@@ -1,12 +1,9 @@
-import { CREATED_PICTURES } from './data.js';
-
-const renderThumb = (pictures) => {
+const renderThumbnails = (picturesData) => {
   const picturesContainer = document.querySelector('.pictures');
   const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
   const pictureFragment = new DocumentFragment();
 
-  pictures.forEach(({ id, url, description, likes, comments }) => {
+  picturesData.forEach(({ id, url, description, likes, comments }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
 
     const pictureImg = pictureElement.querySelector('.picture__img');
@@ -26,4 +23,4 @@ const renderThumb = (pictures) => {
   picturesContainer.append(pictureFragment);
 };
 
-renderThumb(CREATED_PICTURES);
+export { renderThumbnails };

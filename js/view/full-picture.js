@@ -1,12 +1,18 @@
-import { clearElement } from './functions/clear-element.js';
-import { CREATED_PICTURES } from './data.js';
+import { clearElement } from '../functions/clear-element.js';
 
 const COMMENTS_VISIBLE_STEP = 5;
-let onClickLoadMore;
 
 const picturesContainer = document.querySelector('.pictures');
 const fullPictureContainer = document.querySelector('.big-picture');
 const closeButton = fullPictureContainer.querySelector('.big-picture__cancel');
+
+let onClickLoadMore;
+let picturesData = [];
+
+
+const setPicturesData = (data) => {
+  picturesData = data;
+};
 
 
 const renderComment = ({ name, avatar, message }) => {
@@ -38,6 +44,7 @@ const renderCommentList = (comments, container, commentsFrom, commentAmount) => 
   for (let i = 0; i < Math.min(comments.length, commentAmount); i++) {
     container.append(renderComment(comments[i]));
   }
+
   commentsFrom.textContent = commentAmount;
 };
 
@@ -105,6 +112,7 @@ function openFullPicture() {
   document.addEventListener('keydown', onDocumentKeydownEscape);
 }
 
+
 function closeFullPicture() {
   document.body.classList.remove('modal-open');
   fullPictureContainer.classList.add('hidden');
@@ -116,13 +124,20 @@ function closeFullPicture() {
   document.removeEventListener('keydown', onDocumentKeydownEscape);
 }
 
+
 picturesContainer.addEventListener('click', (evt) => {
   const isClickOnPicture = evt.target.closest('.picture');
 
   if (isClickOnPicture) {
+    evt.preventDefault();
+
     const chosenImgElement = isClickOnPicture.querySelector('img');
-    const chosenPicture = CREATED_PICTURES.find((picture) => picture.id === Number(chosenImgElement.dataset.id));
+    const chosenPicture = picturesData.find((picture) => picture.id === Number(chosenImgElement.dataset.id));
+
     renderFullPicture(chosenPicture);
     openFullPicture();
   }
 });
+
+
+export { setPicturesData };

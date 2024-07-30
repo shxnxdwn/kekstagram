@@ -16,19 +16,20 @@ const SLIDER_OPTIONS = {
   heat: { range: { min: 1, max: 3 }, start: 3, step: 0.1 }
 };
 
+
 const effectLevelField = document.querySelector('.effect-level');
 const sliderElement = effectLevelField.querySelector('.effect-level__slider');
 const valueElement = effectLevelField.querySelector('.effect-level__value');
 const picturePreview = document.querySelector('.img-upload__preview > img');
 
 let currentEffect = 'none';
-let sliderInitialized = false;
+let isSliderInitialized = false;
 
 
 const initializeSlider = () => {
-  if (!sliderInitialized) {
+  if (!isSliderInitialized) {
     noUiSlider.create(sliderElement, SLIDER_OPTIONS.none);
-    sliderInitialized = true;
+    isSliderInitialized = true;
   }
 
   sliderElement.noUiSlider.on('update', () => {
@@ -58,12 +59,14 @@ const applyEffect = (evt) => {
   }
 };
 
+
 const destroySlider = () => {
-  if (sliderInitialized) {
+  if (isSliderInitialized) {
     sliderElement.noUiSlider.destroy();
     currentEffect = 'none';
-    sliderInitialized = false;
+    isSliderInitialized = false;
   }
 };
+
 
 export { applyEffect, initializeSlider, destroySlider };
