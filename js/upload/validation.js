@@ -9,7 +9,7 @@ const HASHTAG_ERROR = {
 };
 
 const COMMENT_ERROR = {
-  MAX_LENGTH: 'Длина комментария больше 140 символов'
+  MAX_LENGTH: `Длина комментария больше ${MAX_COMMENT_LENGTH} символов`
 };
 
 
@@ -44,9 +44,9 @@ const setupValidation = (form, hashtagInput, commentInput) => {
   };
 
   pristine.addValidator(commentInput, isValidCommentMaxLength, COMMENT_ERROR.MAX_LENGTH);
-  pristine.addValidator(hashtagInput, isValidHashtag, HASHTAG_ERROR.INVALID);
-  pristine.addValidator(hashtagInput, isValidHashtagMaxCount, HASHTAG_ERROR.MAX_COUNT);
-  pristine.addValidator(hashtagInput, isHashtagsRepeat, HASHTAG_ERROR.REPEAT);
+  pristine.addValidator(hashtagInput, isValidHashtag, HASHTAG_ERROR.INVALID, 3, true);
+  pristine.addValidator(hashtagInput, isValidHashtagMaxCount, HASHTAG_ERROR.MAX_COUNT, 2, true);
+  pristine.addValidator(hashtagInput, isHashtagsRepeat, HASHTAG_ERROR.REPEAT, 1, true);
 
   return pristine;
 };

@@ -62,8 +62,9 @@ const applyEffect = (evt) => {
 
 const destroySlider = () => {
   if (isSliderInitialized) {
-    sliderElement.noUiSlider.destroy();
     currentEffect = 'none';
+    effectLevelField.classList.add('hidden');
+    sliderElement.noUiSlider.destroy();
     isSliderInitialized = false;
   }
 };

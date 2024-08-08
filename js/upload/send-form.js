@@ -2,12 +2,16 @@ import { closePictureUploadOverlay } from './form.js';
 
 const SEND_DATA_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 
+const NOTIFICATION_TEMPLATE = {
+  success: document.querySelector('#success').content.querySelector('.success'),
+  error: document.querySelector('#error').content.querySelector('.error'),
+};
+
 const submitButton = document.querySelector('.img-upload__submit');
 
 
 const showNotification = (type) => {
-  const template = document.querySelector(`#${type}`).content.querySelector(`.${type}`);
-  const notificationElement = template.cloneNode(true);
+  const notificationElement = NOTIFICATION_TEMPLATE[type].cloneNode(true);
   const button = notificationElement.querySelector(`.${type}__button`);
 
   document.body.append(notificationElement);
