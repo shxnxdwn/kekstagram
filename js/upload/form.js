@@ -93,6 +93,7 @@ const clearForm = () => {
   hashtagInput.value = '';
   commentInput.value = '';
   pictureUploadInput.value = null;
+  pictureUploadOverlay.querySelector('#effect-none').checked = true;
 
   document.querySelector('.scale__control--value').value = '100%';
   document.querySelector('.effect-level__value').value = '';
