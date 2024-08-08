@@ -17,6 +17,9 @@ const hashtagInput = pictureUploadOverlay.querySelector('.text__hashtags');
 const commentInput = pictureUploadOverlay.querySelector('.text__description');
 
 
+const pristine = setupValidation(pictureUploadForm, hashtagInput, commentInput);
+
+
 const isCorrectFileType = (file) => FILE_TYPES.some((extension) => file.name.toLowerCase().endsWith(extension));
 
 
@@ -25,7 +28,7 @@ const onClickCloseButton = () => {
 };
 
 const onDocumentKeydownEscape = (evt) => {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && !(document.querySelector('.success') || document.querySelector('.error'))) {
     evt.preventDefault();
     closePictureUploadOverlay();
   }
@@ -40,8 +43,6 @@ const onInputKeydownEscape = (evt) => {
 
 const onClickSubmitButton = (evt) => {
   evt.preventDefault();
-
-  const pristine = setupValidation(pictureUploadForm, hashtagInput, commentInput);
 
   if (pristine.validate()) {
     const formData = new FormData(evt.currentTarget);
@@ -92,6 +93,7 @@ const clearForm = () => {
   hashtagInput.value = '';
   commentInput.value = '';
   pictureUploadInput.value = null;
+  pictureUploadOverlay.querySelector('#effect-none').checked = true;
 
   document.querySelector('.scale__control--value').value = '100%';
   document.querySelector('.effect-level__value').value = '';
